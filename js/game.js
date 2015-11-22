@@ -1,5 +1,12 @@
-(function(){
-	// ´´½¨»­²¼
+(function(window){
+
+
+	window.game = function(){
+
+	}
+	var _game = window.game;
+
+	// åˆ›å»ºç”»å¸ƒ
 	var canvas = document.createElement("canvas");
 	var container = document.getElementById("container");
 	var ctx = canvas.getContext("2d");
@@ -9,7 +16,7 @@
 	canvas.height = 480;
 	container.appendChild(canvas);
 
-// ±³¾°Í¼ÊµÏÖ
+// èƒŒæ™¯å›¾å®ç°
 	var bgReady = false;
 	var bgImage = new Image();
 	bgImage.onload = function () {
@@ -17,7 +24,7 @@
 	};
 	bgImage.src = "images/background.png";
 
-// Ó¢ĞÛ
+// è‹±é›„
 	var heroReady = false;
 	var heroImage = new Image();
 	heroImage.onload = function () {
@@ -25,7 +32,7 @@
 	};
 	heroImage.src = "images/hero.png";
 
-// ¸ç²¼ÁÖ
+// å“¥å¸ƒæ—
 	var monsterReady = false;
 	var monsterImage = new Image();
 	monsterImage.onload = function () {
@@ -33,7 +40,7 @@
 	};
 	monsterImage.src = "images/monster.png";
 
-// ÓÎÏ·ÈËÎïÊµÀı
+// æ¸¸æˆäººç‰©å®ä¾‹
 	var hero = {
 		speed: 256 // movement in pixels per second
 	};
@@ -42,7 +49,7 @@
 	};
 	var monstersCaught = 0;
 
-// ¼üÅÌÊÂ¼ş¶ÓÁĞ
+// é”®ç›˜äº‹ä»¶é˜Ÿåˆ—
 	var keysDown = {};
 
 	addEventListener("keydown", function (e) {
@@ -53,18 +60,18 @@
 		delete keysDown[e.keyCode];
 	}, false);
 
-// µ±¸ç²¼ÁÖ±»×¥ºóÖØÖÃ¸ç²¼ÁÖ
+// å½“å“¥å¸ƒæ—è¢«æŠ“åé‡ç½®å“¥å¸ƒæ—
 	var reset = function () {
 		hero.x = canvas.width / 2;
 		hero.y = canvas.height / 2;
 
 		direct = Math.random()*(2*Math.PI);
-		// Ëæ»úÏÔÊ¾¸ç²¼ÁÖ
+		// éšæœºæ˜¾ç¤ºå“¥å¸ƒæ—
 		monster.x = 32 + (Math.random() * (canvas.width - 64));
 		monster.y = 32 + (Math.random() * (canvas.height - 64));
 	};
 
-// ÊµÊ±¸üĞÂÈËÎï¶ÔÏóÊı¾İ
+// å®æ—¶æ›´æ–°äººç‰©å¯¹è±¡æ•°æ®
 	var update = function (modifier) {
 		if (38 in keysDown) { // Player holding up
 			hero.y -= hero.speed * modifier;
@@ -78,7 +85,7 @@
 		if (39 in keysDown) { // Player holding right
 			hero.x += hero.speed * modifier;
 		}
-		//Ó¢ĞÛ±ß½ç´¦Àí
+		//è‹±é›„è¾¹ç•Œå¤„ç†
 		if(hero.y<0){
 			hero.y=canvas.height;
 		}
@@ -91,7 +98,7 @@
 		if(hero.x>canvas.width){
 			hero.x=0;
 		}
-		//¸ç²¼ÁÖÅö×²±ß½ç´¦Àí
+		//å“¥å¸ƒæ—ç¢°æ’è¾¹ç•Œå¤„ç†
 		if(monster.y<=0){
 			direct=(Math.PI)*Math.random();
 		}
@@ -104,10 +111,10 @@
 		if(monster.x>=canvas.width){
 			direct=Math.PI/2+(Math.PI)*Math.random();
 		}
-		//¸ç²¼ÁÖÒÆ¶¯
+		//å“¥å¸ƒæ—ç§»åŠ¨
 		monster.x += Math.cos(direct)*monster.speed*modifier;
 		monster.y += Math.sin(direct)*monster.speed*modifier;
-		// ÅĞ¶ÏÊÇ·ñ×¥×¡¸ç²¼ÁÖ
+		// åˆ¤æ–­æ˜¯å¦æŠ“ä½å“¥å¸ƒæ—
 		if (
 			hero.x <= (monster.x + 32)
 			&& monster.x <= (hero.x + 32)
@@ -121,7 +128,7 @@
 		}
 	};
 
-// »æÖÆ
+// ç»˜åˆ¶
 	var render = function () {
 		if (bgReady) {
 			ctx.drawImage(bgImage, 0, 0);
@@ -135,7 +142,7 @@
 			ctx.drawImage(monsterImage, monster.x, monster.y);
 		}
 
-		// µÃ·ÖÓëµ¹¼ÆÊ±
+		// å¾—åˆ†ä¸å€’è®¡æ—¶
 		ctx.fillStyle = "rgb(250, 250, 250)";
 		ctx.font = "24px Helvetica";
 		ctx.textAlign = "left";
@@ -144,7 +151,7 @@
 		ctx.fillText("Time: " + parseInt(time), 32, 64);
 	};
 
-// Ö÷Ñ­»·
+// ä¸»å¾ªç¯
 	var main = function () {
 		var now = Date.now();
 		var delta = now - then;
@@ -155,20 +162,20 @@
 		then = now;
 		time -= delta/1000;
 		if(time>=0){
-			// Ö¡¶¯»­
+			// å¸§åŠ¨ç”»
 			requestAnimationFrame(main);
 		}else{
 			ctx.fillText("Game Over", 192,canvas.height/2);
 		}
 	};
 
-	var replay = function(){
+	_game.replay = function(){
 		time = 60;
 		monstersCaught = 0;
 		reset();
 		main();
 	}
-// ¿çä¯ÀÀÆ÷Ö§³Ö requestAnimationFrame
+// è·¨æµè§ˆå™¨æ”¯æŒ requestAnimationFrame
 	var w = window;
 	requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
 
@@ -176,5 +183,5 @@
 	var then = Date.now();
 	reset();
 	main();
-})();
+})(window);
 
