@@ -172,6 +172,7 @@
 	_game.replay = function(){
 		time = 60;
 		monstersCaught = 0;
+		monster.speed = 128;
 		reset();
 		main();
 	}
